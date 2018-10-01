@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.Conection;
 
 @WebServlet(name = "Prueba", urlPatterns = {"/prueba.do"})
 public class Prueba extends HttpServlet {
@@ -19,10 +18,9 @@ public class Prueba extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            Conection c = new Conection();
             /* TODO output your page here. You may use following sample code. */
             try {
-                out.println(c.SelectJson("select * from trabajador;"));
+               
             } catch (Exception ex) {
                 Logger.getLogger(Prueba.class.getName()).log(Level.SEVERE, null, ex);
             }
