@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONArray;
 
 public class Data {
 
@@ -14,9 +15,9 @@ public class Data {
     public Data() throws SQLException, ClassNotFoundException {
         con = new Conexion(
                 "localhost",
-                "bdAlmaAstrologia",//nombre BD
+                "bdEmpresa",//nombre BD
                 "root",
-                "12345"//Password
+                ""//Password
         );
     }
 
@@ -35,23 +36,30 @@ public class Data {
     }
 
     //LEER DATOS
-    public List<Area> getArea() throws SQLException {
+    public List<Area> getArea() throws SQLException, Exception {
         List<Area> list = new ArrayList<>();
+        String listConvert;
 
         query = "SELECT * FROM area;";
         rs = con.ejecutarSelect(query);
+//        JSONArray array = con.SelectJson(query);
 
         Area are;
-
+        
         while (rs.next()) {
             are = new Area();
             are.setId(rs.getInt(1));
             are.setNombre(rs.getString(2));
             list.add(are);
+//            listConvert = String.join(",", list);
         }
+        
+        con.SelectJsonList(list);
+        
         con.close();
-
+        
         return list;
+
     }
 
     public List<Trabajador> getTrabajador() throws SQLException {
@@ -83,14 +91,14 @@ public class Data {
     }
 
     public void updateTrabajador(int idArea, Trabajador tra) throws SQLException {
-        query = "UPDATE  trabajador SET nombre = '" + tra.getRut()+ "', '" + tra.getNombre()+ "' ,'" + tra.getApellido()+ "' "
-                + "'" + tra.getAreaFk()+ "'"
+        query = "UPDATE  trabajador SET nombre = '" + tra.getRut() + "', '" + tra.getNombre() + "' ,'" + tra.getApellido() + "' "
+                + "'" + tra.getAreaFk() + "'"
                 + "WHERE id = " + idArea + "";
         con.ejecutar(query);
     }
 
     //ELIMINAR
-    public void deleteArea (int idArea) throws SQLException {
+    public void deleteArea(int idArea) throws SQLException {
         query = "DELETE FROM area WHERE id = " + idArea + "";
         con.ejecutar(query);
     }

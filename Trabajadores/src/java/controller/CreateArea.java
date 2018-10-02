@@ -31,13 +31,15 @@ public class CreateArea extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Data d = new Data();
-            
+
             Area newArea = new Area();
-            
+
             newArea.setNombre(request.getParameter("txtNombre"));
-            
+
+            System.out.println();
+
             d.crearArea(newArea);
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(CreateArea.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {

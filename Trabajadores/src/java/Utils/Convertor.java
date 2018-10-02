@@ -8,17 +8,8 @@ import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
 
-/**
- * Utility for converting ResultSets into some Output formats
- */
 public class Convertor {
 
-    /**
-     * Convert a result set into a JSON Array
-     * @param resultSet
-     * @return a JSONArray
-     * @throws Exception
-     */
     public static JSONArray convertResultSetIntoJSON(ResultSet resultSet) throws Exception {
         JSONArray jsonArray = new JSONArray();
         while (resultSet.next()) {
@@ -31,11 +22,7 @@ public class Convertor {
                 if (columnValue == null){
                     columnValue = "null";
                 }
-                /*
-                Next if block is a hack. In case when in db we have values like price and price1 there's a bug in jdbc - 
-                both this names are getting stored as price in ResulSet. Therefore when we store second column value,
-                we overwrite original value of price. To avoid that, i simply add 1 to be consistent with DB.
-                 */
+                
                 if (obj.has(columnName)){
                     columnName += "1";
                 }
