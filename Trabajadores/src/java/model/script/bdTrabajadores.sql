@@ -36,4 +36,8 @@ SELECT * FROM area;
 
 SELECT * FROM datos_persona;
 
+
+SELECT nombreA FROM area WHERE id = 1;
+
+
 --DROP DATABASE bdEmpresa

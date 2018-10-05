@@ -58,13 +58,6 @@ public class Conexion {
         return x.convertResultSetIntoJSON(this.ejecutarSelect(sql));
     }
     
-    public JSONArray SelectJsonList(List list) throws SQLException, Exception {
-        Convertor x = new Convertor();
-        
-        String lista = String.join(",", list);
-        
-        return x.convertResultSetIntoJSON(this.ejecutarSelect(lista));
-    }
 
 
 }

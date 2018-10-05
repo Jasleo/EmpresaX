@@ -45,7 +45,7 @@ public class Data {
 //        JSONArray array = con.SelectJson(query);
 
         Area are;
-        
+
         while (rs.next()) {
             are = new Area();
             are.setId(rs.getInt(1));
@@ -53,11 +53,9 @@ public class Data {
             list.add(are);
 //            listConvert = String.join(",", list);
         }
-        
-        con.SelectJsonList(list);
-        
+
         con.close();
-        
+
         return list;
 
     }
@@ -84,12 +82,25 @@ public class Data {
         return list;
     }
 
-    //UPDATE
-    public void updateArea(int idArea, Area a) throws SQLException {
-        query = "UPDATE  area SET nombre = '" + a.getNombre() + "' WHERE id = " + idArea + "";
-        con.ejecutar(query);
+    public Area getAreaId(String idArea) throws SQLException {
+        Area obj = new Area();
+        query = "SELECT * FROM area WHERE id = " + idArea + ";";
+        rs = con.ejecutarSelect(query);
+        if (rs.next()) {
+            obj.setId(rs.getInt(1));
+            obj.setNombre(rs.getString(2));
+        }
+        con.close();
+        return obj;
     }
 
+    //UPDATE
+    
+    public void updateArea(Area a) throws SQLException {
+        query = "UPDATE  area SET nombreA = '" + a.getNombre() + "' WHERE id = " + a.getId() + ";";
+        con.ejecutar(query);
+    }
+    
     public void updateTrabajador(int idArea, Trabajador tra) throws SQLException {
         query = "UPDATE  trabajador SET nombre = '" + tra.getRut() + "', '" + tra.getNombre() + "' ,'" + tra.getApellido() + "' "
                 + "'" + tra.getAreaFk() + "'"

@@ -34,7 +34,7 @@ public class CreateArea extends HttpServlet {
 
             Area newArea = new Area();
 
-            newArea.setNombre(request.getParameter("txtNombre"));
+            newArea.setNombre(request.getParameter("are"));
 
             System.out.println();
 
