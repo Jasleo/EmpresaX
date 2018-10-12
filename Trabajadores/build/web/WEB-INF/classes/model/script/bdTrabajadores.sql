@@ -17,12 +17,14 @@ CREATE TABLE trabajador(
     PRIMARY KEY (id)
 );
 
-INSERT INTO area VALUES(NULL,"Informatica");
-INSERT INTO area VALUES(NULL,"Recursos Humanos");
-INSERT INTO area VALUES(NULL,"Redes");
-INSERT INTO trabajador VALUES(NULL,"1.999.999-1","Hugo","Contreras",2);
-INSERT INTO trabajador VALUES(NULL,"2.999.999-1","Alan","Brito",1);
-INSERT INTO trabajador VALUES(NULL,"3.999.999-1","Rasputin","II",3);
+INSERT INTO area VALUES(NULL,"sector 6G");
+INSERT INTO area VALUES(NULL,"sector 7G");
+INSERT INTO area VALUES(NULL,"sector 5G");
+
+
+INSERT INTO trabajador VALUES(NULL,"1.999.999-1","Homero","Simpson",2);
+INSERT INTO trabajador VALUES(NULL,"2.999.999-1","Carl","Carlson",1);
+INSERT INTO trabajador VALUES(NULL,"3.999.999-1","Lenny","Leonard",3);
 
 CREATE VIEW datos_persona AS
 SELECT trabajador.nombre,trabajador.apellido,area.nombreA

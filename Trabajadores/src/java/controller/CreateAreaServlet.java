@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import model.Area;
 import model.Data;
 
-@WebServlet(name = "CreateArea", urlPatterns = {"/createArea.do"})
-public class CreateArea extends HttpServlet {
+@WebServlet(name = "CreateAreaServlet", urlPatterns = {"/createArea.do"})
+public class CreateAreaServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -41,9 +41,9 @@ public class CreateArea extends HttpServlet {
             d.crearArea(newArea);
 
         } catch (SQLException ex) {
-            Logger.getLogger(CreateArea.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CreateAreaServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CreateArea.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CreateAreaServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

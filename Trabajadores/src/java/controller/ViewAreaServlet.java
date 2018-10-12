@@ -16,8 +16,8 @@ import model.Area;
 import model.Data;
 import org.json.JSONArray;
 
-@WebServlet(name = "ViewArea", urlPatterns = {"/viewArea.do"})
-public class ViewArea extends HttpServlet {
+@WebServlet(name = "ViewAreaServlet", urlPatterns = {"/viewArea.do"})
+public class ViewAreaServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -48,13 +48,13 @@ public class ViewArea extends HttpServlet {
                     out.print(g.toJson(repArea));
                 }
             } catch (Exception ex) {
-                Logger.getLogger(ViewArea.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ViewAreaServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(ViewArea.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ViewAreaServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ViewArea.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ViewAreaServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

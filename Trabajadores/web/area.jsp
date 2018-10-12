@@ -172,7 +172,7 @@
                                     var are = $("#txtAreaE").val();
                                     var id = $("#idAreaHidden").val();
                                     if (are.length == 0) {
-                                        swal("Error", "debe ingresar editar.", "error");
+                                        swal("Error", "debe ingresar dato.", "error");
                                         return;
                                     }
                                     swal({

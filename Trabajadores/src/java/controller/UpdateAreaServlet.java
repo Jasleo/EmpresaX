@@ -5,6 +5,7 @@
  */
 package controller;
 
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -22,18 +23,9 @@ import model.Data;
  *
  * @author nloyola
  */
-@WebServlet(name = "DeleteArea", urlPatterns = {"/deleteArea.do"})
-public class DeleteArea extends HttpServlet {
+@WebServlet(name = "UpdateAreaServlet", urlPatterns = {"/updateArea.do"})
+public class UpdateAreaServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -46,35 +38,40 @@ public class DeleteArea extends HttpServlet {
         processRequest(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         try (PrintWriter out = response.getWriter()) {
             try {
                 Data d = new Data();
+                Gson g = new Gson();
 
-                Area deleteArea = new Area();
-                
-                int id = Integer.parseInt(request.getParameter("id"));
-                
-                d.deleteArea(id);
+                String accion = request.getParameter("accion");
+                String id = request.getParameter("id");
 
-                System.out.println(d.getAreaId("id"));
-
+                Area upA = new Area();
                 
+                
+                System.out.println(accion);
+                switch (accion) {
+                    case "traerArea":
+                        out.print(g.toJson(d.getAreaId(id)));
+                        break;
+                    case "editarArea":
+                        String txtAreaE = request.getParameter("are");
+                        upA.setNombre(txtAreaE);
+                        upA.setId(Integer.parseInt(id));
+                        d.updateArea(upA);
+                        
+                        break;
+
+                }
+
+                //System.out.println(d.getAreaId(id));
             } catch (SQLException ex) {
-                Logger.getLogger(DeleteArea.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(UpdateAreaServlet.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(DeleteArea.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(UpdateAreaServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
