@@ -27,7 +27,7 @@
                                         <input type="password" class="form-control" id="inputPassword" placeholder="Password">
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary" onclick="iniciarSesion()">Login</button>
+                                <button class="btn btn-primary" onclick="iniciarSesion()">Login</button>
                             </div>
                         </div>
                     </div>
@@ -36,8 +36,8 @@
         </div>
     </div>
 
-    <script src="js/bootstrap.min.js" type="text/javascript"></script>
     <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
     <script src="js/sweetalert.min.js" type="text/javascript"></script>
 
 
@@ -45,32 +45,30 @@
                                     function iniciarSesion() {
                                         var inputUsuario = $("#inputUsuario").val();
                                         var inputPassword = $("#inputPassword").val();
-
-                                        if (are.length == 0) {
-                                            swal("Error, debe ingresar datos de Inicio de Sesión.");
-                                            return;
-                                        }
+                                        $("#txtAlerta").hide();
                                         // asumimos que no hay errores
                                         $.ajax({
                                             url: './loginUser.do',
                                             type: "POST",
-                                            dataType: "text",
                                             data: {
-                                                accion: "inicio",
+                                                accion: "login",
                                                 inputUsuario: inputUsuario,
                                                 inputPassword: inputPassword,
                                             },
+                                            dataType: 'html',
+                                            async: false,
                                             success: function (datos) {
                                                 console.log(datos);
                                                 if (datos == "OK") {
-                                                    $location.attr("href", "trab.jsp");
+                                                    $(location).attr("href", "inicio.jsp");
                                                 } else {
                                                     swal({
                                                         type: 'error',
                                                         title: 'Oops...',
-                                                        text: 'Something went wrong!',
+                                                        text: 'Verifique Usuario y/o Contraseña',
                                                         footer: '<a href>Why do I have this issue?</a>'
                                                     })
+
                                                 }
                                             }
                                         });

@@ -18,11 +18,13 @@ public class DataControlUser {
         );
     }
 
+
+
     public Usuario getUsuario(String userName, String pass) throws SQLException {
         Usuario u = null;
-
-        rs = con.ejecutarSelect("SELECT * FROM "
-                + "usuario WHERE rut = '" + userName + "' AND pass = '"+ pass +"' ");
+        
+        query = "SELECT * FROM usuario WHERE username = '" + userName + "' AND pass = '" + pass + "' ;";
+        rs = con.ejecutarSelect(query);
 
         if (rs.next()) {
             u = new Usuario();
@@ -33,9 +35,7 @@ public class DataControlUser {
             u.setNombre(rs.getString(4));
             u.setPass(rs.getString(5));
         }
-
         con.close();
-
         return u;
     }
 

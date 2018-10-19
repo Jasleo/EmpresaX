@@ -1,47 +1,37 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.DataControlUser;
-import model.Usuario;
 
-@WebServlet(name = "LoginUserServlet", urlPatterns = {"/loginUser.do"})
-public class LoginUserServlet extends HttpServlet {
+/**
+ *
+ * @author nloyola
+ */
+@WebServlet(name = "LogoutUserServlet", urlPatterns = {"/LogoutUser.do"})
+public class LogoutUserServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            DataControlUser d = new DataControlUser();
             HttpSession session = request.getSession();
-            
+
             String accion = request.getParameter("accion");
-            String username = request.getParameter("inputUsuario");
-            String pass = request.getParameter("inputPassword");
-            
-            Usuario u = d.getUsuario(username, pass);
 
-            if (u != null) {
-                session.setAttribute("usuario", u);
-                out.print("OK");
-                session.removeAttribute("error");
-            } else {
-                session.setAttribute("error", new Error("Fallo"));
-            }
+            session.removeAttribute("usuario");
 
-        } catch (SQLException ex) {
-            Logger.getLogger(LoginUserServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(LoginUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+
         }
     }
 
