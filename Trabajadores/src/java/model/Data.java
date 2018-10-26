@@ -93,13 +93,30 @@ public class Data {
         return obj;
     }
 
+    public Trabajador getTrabajadorById(String idTraba) throws SQLException {
+        Trabajador newTra = new Trabajador();
+        query = "SELECT * FROM trabajador;";
+        rs = con.ejecutarSelect(query);
+
+        if (rs.next()) {
+            newTra = new Trabajador();
+            newTra.setId(rs.getInt(1));
+            newTra.setRut(rs.getString(2));
+            newTra.setNombre(rs.getString(3));
+            newTra.setApellido(rs.getString(4));
+            newTra.setAreaFk(rs.getInt(5));
+        }
+        con.close();
+
+        return newTra;
+    }
+
     //UPDATE
-    
     public void updateArea(Area a) throws SQLException {
         query = "UPDATE  area SET nombreA = '" + a.getNombre() + "' WHERE id = " + a.getId() + ";";
         con.ejecutar(query);
     }
-    
+
     public void updateTrabajador(int idArea, Trabajador tra) throws SQLException {
         query = "UPDATE  trabajador SET nombre = '" + tra.getRut() + "', '" + tra.getNombre() + "' ,'" + tra.getApellido() + "' "
                 + "'" + tra.getAreaFk() + "'"

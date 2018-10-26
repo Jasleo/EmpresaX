@@ -31,7 +31,6 @@ public class CreateAreaServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Data d = new Data();
-
             Area newArea = new Area();
 
             newArea.setNombre(request.getParameter("are"));

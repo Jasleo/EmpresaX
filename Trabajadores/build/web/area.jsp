@@ -40,7 +40,8 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade " id="modalEditarArea" role="dialog">
+
+        <div class="modal fade" id="modalEditarArea" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -57,6 +58,7 @@
                 </div>
             </div>
         </div>
+
         <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
         <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
