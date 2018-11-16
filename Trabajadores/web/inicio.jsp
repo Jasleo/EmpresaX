@@ -33,7 +33,6 @@
                     %>
                 </a>
             </ul>
-
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" href="#">Link</a>
@@ -42,11 +41,13 @@
                     <a class="nav-link" href="#">Link</a>
                 </li>
             </ul>
-            <div class="navbar-header">
-                <a class="navbar-brand">
-                    <button class="btn btn-primary" onclick="logout();">logout</button>
-                </a>
-            </div>
+
+            <ul class="navbar-left">
+                <button class="btn btn-primary" onclick="logout();">logout</button>
+            </ul>
+
+
+
         </nav>
 
         <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
@@ -58,25 +59,25 @@
 
         <script>
 
-                        $(document).ready(function () {
-                            cargaDatosArea();
+                    $(document).ready(function () {
+                        cargaDatosArea();
+                    });
+
+
+                    function logout() {
+                        $.ajax({
+                            url: './LogoutUser.do',
+                            type: "POST",
+                            async: false,
+                            data: {
+                                accion: "logout"
+                            },
+                            dataType: 'html',
+                            success: function (datos) {
+                                $(location).attr("href", "index.jsp");
+                            }
                         });
-
-
-                        function logout() {
-                            $.ajax({
-                                url: './LogoutUser.do',
-                                type: "POST",
-                                async: false,
-                                data: {
-                                    accion: "logout"
-                                },
-                                dataType: 'html',
-                                success: function (datos) {
-                                    $(location).attr("href", "index.jsp");
-                                }
-                            });
-                        }
+                    }
 
 
         </script>
