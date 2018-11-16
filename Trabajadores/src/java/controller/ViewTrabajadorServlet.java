@@ -26,10 +26,8 @@ public class ViewTrabajadorServlet extends HttpServlet {
             Gson g = new Gson();
 
             List<Trabajador> respTrabajador = d.getTrabajador();
-            
             out.print(g.toJson(respTrabajador));
             
-
         } catch (SQLException ex) {
             Logger.getLogger(ViewTrabajadorServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {

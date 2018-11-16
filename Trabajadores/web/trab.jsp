@@ -18,6 +18,7 @@
                         <td>Nombre</td>
                         <td>Apellido</td>
                         <td>Area</td>
+                        <td>Accion</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,124 +44,140 @@
             </div>
         </div>
     </body>
-    
+
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js" ></script>
     <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
     <script src="js/sweetalert.min.js" type="text/javascript"></script>
-    
-    <script>
-                $(document).ready(function () {
-                    cargaDatos();
-                });
-                function limpiarCampos(){
-                    document.getElementById('txtNombre').value = ''
-                    document.getElementById('txtApellido').value = ''
-                    document.getElementById('txtArea').value = ''
-                }
-                
-                
-                function eliminar(id) {
-                    if (confirm("Está seguro que desea eliminar el id: " + id)) {
-                        // AJAX para eliminar el producto
-                        // mensaje al usuario
-                        cargaDatos();
-                    }
-                }
-                function editar(id) {
-                    // abrir ventana modal con los datos del producto
-                    // llamamos a la función que guarda modificación
-                }
-                function agregar() {
-                    $("#modalNuevoTrabajador").modal("show");
-                    // abrir ventana modal datos en blanco
-                    // llamamos a la función que crea producto
-                }
 
-                function crearTraba() {
-                    //variables para todos los datos del nuevo producto
-                    // ajax para crear nuevo producto (insert)
-                    var cat = $("#txtNombre").val();
-                    var prod = $("#txtApellido").val();
-                    var precio = $("#txtArea").val();
-                    if(cat.length == 0){
-                        swal("Error, debe ingresar nombre.");
-                        return;
-                    }
-                    if(prod.length == 0){
-                        swal("Error, debe ingresar nombre de apellido.");
-                        return;
-                    }if(precio.length == 0){
-                        swal("Error, debe ingresar area.");
-                        return;
-                    }
-                    
-                    $("#modalNuevoTrabajador").modal("hide");
-                    cargaDatos();
-                }
-                function editarProducto() {
-                    // cargar los datos del producto a editar (desde el formulario del modal)
-                    // ajax para guardar edición
-                    cargaDatos();
-                }
-                function dibujaTabla(datos) {
-                    $('#myTable').DataTable().destroy();
-                    $('#myTable').DataTable({
-                        dom: 'frtip',
-                        "autowidth": true,
-                        data: datos,
-                        columns: [
-                            {data: "id", },
-                            {data: "nombre"},
-                            {data: "apellido"},
-                            {data: "area"},
-                            {data: "id",
-                                render: function (data, type, row, meta) {
-                                    var botones = "<button class='btn btn-sm btn-primary' onclick='editar(" + data + ");'>Editar</button>";
-                                    botones += "<button class='btn btn-sm btn-danger' onclick='eliminar(" + data + ");'>Eliminar</button>";
-                                    return botones;
+    <script>
+
+                                $(document).ready(function () {
+                                    cargaDatos();
+                                });
+
+                                function limpiarCampos() {
+                                    document.getElementById('txtNombre').value = ''
+                                    document.getElementById('txtApellido').value = ''
+                                    document.getElementById('txtArea').value = ''
                                 }
-                            }
-                        ],
-                        "language": {
-                            "sProcessing": "Procesando...",
-                            "sLengthMenu": "Mostrar _MENU_ registros",
-                            "sZeroRecords": "No se encontraron resultados",
-                            "sEmptyTable": "Ningún dato disponible en esta tabla",
-                            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                            "sInfoPostFix": "",
-                            "sSearch": "Buscar:",
-                            "sUrl": "",
-                            "sInfoThousands": ",",
-                            "sLoadingRecords": "Cargando...",
-                            "oPaginate": {
-                                "sFirst": "Primero",
-                                "sLast": "Último",
-                                "sNext": "Siguiente",
-                                "sPrevious": "Anterior"
-                            },
-                            "oAria": {
-                                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                            }
-                        }
-                    });
-                }
-                
-                function cargaDatos() {
-                    $.ajax({
-                        url: './viewTrabajador.do',
-                        type: "POST",
-                        data: {
-                        },
-                        dataType: 'json',
-                        success: function (datos) {
-                            dibujaTabla(datos);
-                        }
-                    });
-                }
+
+                                function eliminar(id) {
+                                    if (confirm("Está seguro que desea eliminar el id: " + id)) {
+                                        // AJAX para eliminar el producto
+                                        // mensaje al usuario
+                                        cargaDatos();
+                                    }
+                                }
+
+                                function editar(id) {
+                                    // abrir ventana modal con los datos del producto
+                                    // llamamos a la función que guarda modificación
+                                }
+
+                                function agregar() {
+                                    $("#modalNuevoTrabajador").modal("show");
+                                    // abrir ventana modal datos en blanco
+                                    // llamamos a la función que crea producto
+                                }
+
+                                function crearTraba() {
+                                    //variables para todos los datos del nuevo producto
+                                    // ajax para crear nuevo producto (insert)
+                                    var cat = $("#txtNombre").val();
+                                    var prod = $("#txtApellido").val();
+                                    var precio = $("#txtArea").val();
+                                    if (cat.length == 0) {
+                                        swal("Error, debe ingresar nombre.");
+                                        return;
+                                    }
+                                    if (prod.length == 0) {
+                                        swal("Error, debe ingresar nombre de apellido.");
+                                        return;
+                                    }
+                                    if (precio.length == 0) {
+                                        swal("Error, debe ingresar area.");
+                                        return;
+                                    }
+
+                                    $("#modalNuevoTrabajador").modal("hide");
+                                    cargaDatos();
+                                }
+
+                                function editarProducto() {
+                                    // cargar los datos del producto a editar (desde el formulario del modal)
+                                    // ajax para guardar edición
+                                    cargaDatos();
+                                }
+
+
+
+                                function dibujaTabla(datos) {
+                                    $('#myTable').DataTable().destroy();
+                                    $('#myTable').DataTable({
+                                        dom: 'frtip',
+                                        "autowidth": true,
+                                        data: datos,
+                                        columns: [
+                                            {data: "id", },
+                                            {data: "nombre"},
+                                            {data: "apellido"},
+                                            {data: "area"},
+                                            {data: "id",
+                                                render: function (data, type, row, meta) {
+                                                    var botones = "<button class='btn btn-sm btn-primary' onclick='editar(" + data + ");'>Editar</button>";
+                                                    botones += "<button class='btn btn-sm btn-danger' onclick='eliminar(" + data + ");'>Eliminar</button>";
+                                                    return botones;
+                                                }
+                                            }
+                                        ],
+                                        "language": {
+                                            "sProcessing": "Procesando...",
+                                            "sLengthMenu": "Mostrar _MENU_ registros",
+                                            "sZeroRecords": "No se encontraron resultados",
+                                            "sEmptyTable": "Ningún dato disponible en esta tabla",
+                                            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                                            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                                            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                                            "sInfoPostFix": "",
+                                            "sSearch": "Buscar:",
+                                            "sUrl": "",
+                                            "sInfoThousands": ",",
+                                            "sLoadingRecords": "Cargando...",
+                                            "oPaginate": {
+                                                "sFirst": "Primero",
+                                                "sLast": "Último",
+                                                "sNext": "Siguiente",
+                                                "sPrevious": "Anterior"
+                                            },
+                                            "oAria": {
+                                                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                                                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                                            }
+                                        }
+                                    });
+                                }
+
+                                function cargaDatos() {
+                                    $.ajax({
+                                        url: './viewTrabajador.do',
+                                        type: "POST",
+                                        data: {
+                                        },
+                                        dataType: 'json',
+                                        success: function (datos) {
+                                            dibujaTabla(datos);
+                                        }
+                                    });
+                                }
+
+
+
+
+
+
+
+
     </script>
 </html>

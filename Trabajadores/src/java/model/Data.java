@@ -37,11 +37,9 @@ public class Data {
     //LEER DATOS
     public List<Area> getArea() throws SQLException, Exception {
         List<Area> list = new ArrayList<>();
-        String listConvert;
 
         query = "SELECT * FROM area;";
         rs = con.ejecutarSelect(query);
-//        JSONArray array = con.SelectJson(query);
 
         Area are;
 
@@ -50,11 +48,9 @@ public class Data {
             are.setId(rs.getInt(1));
             are.setNombre(rs.getString(2));
             list.add(are);
-//            listConvert = String.join(",", list);
         }
 
         con.close();
-
         return list;
 
     }
