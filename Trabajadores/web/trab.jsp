@@ -37,8 +37,10 @@
                         <label>Nombre: <input type="text" class="form-control" id="txtNombre"></label>
                         <label>Apellido: <input type="text" class="form-control" id="txtApellido"></label>
                         <label>Area: <input type="text" class="form-control" id="txtArea">
-                            <select></select>
-                        
+                            <select class="selector-area">
+                                <option></option>
+                            </select>
+
                         </label>
                         <div class="modal-footer">
                             <button class="btn btn-success" onclick="crearTraba()">Guardar</button>
@@ -81,6 +83,7 @@
 
                                 $(document).ready(function () {
                                     cargaDatos();
+                                    cargarCombo();
                                 });
 
                                 function limpiarCampos() {
@@ -122,7 +125,8 @@
                                     $("#modalEditarTrabajador").modal("show");
                                     $("#idTrabajador").html("ID Trabajador: " + id);
                                     $("#idTrabaHidden").val(id);
-
+                                    cargarCombo();
+                                    
                                     $.ajax({
                                         url: './updateTrabaja.do',
                                         type: "POST",
@@ -184,7 +188,7 @@
                                     var nom = $("#txtNombreEd").val();
                                     var apell = $("#txtApellidoEd").val();
                                     var areTra = $("#txtAreaTrabEd").val();
-                                    
+
                                     var id = $("#idTrabaHidden").val();
                                     if (are.length == 0) {
                                         swal("Error", "debe ingresar dato.", "error");
@@ -280,6 +284,21 @@
                                         }
                                     });
                                 }
+
+                                function cargarCombo() {
+                                    $.ajax({
+                                        url: './viewArea.do',
+                                        type: "POST",
+                                        data: {
+                                        },
+                                        dataType: 'json',
+                                        success: function (response) {
+                                            $('.selector-area option').html(response).fadeIn();
+                                        }
+                                    });
+                                }
+
+
 
 
 
