@@ -25,6 +25,7 @@
                 </tbody>
             </table>
         </div>
+
         <div class="modal fade " id="modalNuevoTrabajador" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -43,6 +44,27 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="modalEditarTrabajador" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="tituloModal">Editar Trabajador</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label>Nombre: <input type="text" class="form-control" id="txtNombreEd"></label>
+                        <label>Apellido: <input type="text" class="form-control" id="txtApellidoEd"></label>
+                        <label>Area: <input type="text" class="form-control" id="txtAreaTrabEd"></label>
+                        <input type="hidden" id="idTrabaHidden">
+                        <div class="modal-footer">
+                            <button class="btn btn-success" onclick="editarTrabajador())">Guardar</button>
+                            <button class="btn btn-primary" data-dismiss="modal" onclick="limpiarCampos()">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </body>
 
     <script src="js/jquery-3.3.1.min.js"></script>
@@ -64,16 +86,55 @@
                                 }
 
                                 function eliminar(id) {
-                                    if (confirm("Está seguro que desea eliminar el id: " + id)) {
-                                        // AJAX para eliminar el producto
-                                        // mensaje al usuario
-                                        cargaDatos();
-                                    }
+                                    swal({title: "Advertencia",
+                                        text: "Está seguro que desea eliminar el id del trabajador: " + id,
+                                        icon: "warning",
+                                        buttons: ['No', 'Si, Eliminar'],
+                                        dangerMode: true,
+                                    }).then((willDelete) => {
+                                        if (willDelete) {
+                                            // AJAX para eliminar el producto
+                                            // mensaje al usuario
+                                            $.ajax({
+                                                url: './deleteTrabajador.do',
+                                                type: "POST",
+                                                dataType: "html",
+                                                data: {
+                                                    accion: "eliminarTrabajador",
+                                                    id: id
+                                                },
+                                                success: function (datos) {
+                                                    cargaDatos();
+                                                    swal("Correcto!", "Trabajador eliminada !", "success");
+                                                }
+                                            });
+                                        }
+                                    });
                                 }
 
                                 function editar(id) {
                                     // abrir ventana modal con los datos del producto
                                     // llamamos a la función que guarda modificación
+                                    $("#modalEditarTrabajador").modal("show");
+                                    $("#idTrabajador").html("ID Trabajador: " + id);
+                                    $("#idTrabaHidden").val(id);
+
+                                    $.ajax({
+                                        url: './updateTrabaja.do',
+                                        type: "POST",
+                                        data: {
+                                            accion: "traerTrabajador",
+                                            id: id
+                                        },
+                                        dataType: 'json',
+                                        success: function (data) {
+                                            $("#txtNombreEd").val(data.nombre);
+                                            $("#txtApellidoEd").val(data.nombre);
+                                            $("#txtAreaTrabEd").val(data.nombre);
+                                        }
+                                    });
+
+
                                 }
 
                                 function agregar() {
@@ -88,30 +149,73 @@
                                     var cat = $("#txtNombre").val();
                                     var prod = $("#txtApellido").val();
                                     var precio = $("#txtArea").val();
-                                    if (cat.length == 0) {
-                                        swal("Error, debe ingresar nombre.");
-                                        return;
-                                    }
-                                    if (prod.length == 0) {
-                                        swal("Error, debe ingresar nombre de apellido.");
-                                        return;
-                                    }
-                                    if (precio.length == 0) {
+
+                                    if (are.length == 0) {
                                         swal("Error, debe ingresar area.");
                                         return;
                                     }
+                                    // asumimos que no hay errores
+                                    $.ajax({
+                                        url: './createTrabajador.do',
+                                        type: "POST",
+                                        dataType: "text",
+                                        data: {
+                                            accion: "crearTraba",
+                                            are: are,
+                                        },
+                                        success: function (datos) {
+                                            console.log(datos);
+                                            cargaDatos();
+                                        }
+                                    });
 
                                     $("#modalNuevoTrabajador").modal("hide");
                                     cargaDatos();
+                                    limpiarCampos();
                                 }
 
-                                function editarProducto() {
+                                function editarTrabajador() {
                                     // cargar los datos del producto a editar (desde el formulario del modal)
                                     // ajax para guardar edición
-                                    cargaDatos();
+                                    var nom = $("#txtNombreEd").val();
+                                    var apell = $("#txtApellidoEd").val();
+                                    var areTra = $("#txtAreaTrabEd").val();
+                                    
+                                    var id = $("#idTrabaHidden").val();
+                                    if (are.length == 0) {
+                                        swal("Error", "debe ingresar dato.", "error");
+                                        return;
+                                    }
+                                    swal({
+                                        title: "Advertencia",
+                                        text: "Está seguro que desea editar el Trabajador id:" + id,
+                                        icon: "warning",
+                                        buttons: ['No', 'Si, Editar'],
+                                        dangerMode: true,
+                                    }).then((willDelete) => {
+                                        if (willDelete) {
+                                            $.ajax({
+                                                url: './updateTrabaja.do',
+                                                type: "POST",
+                                                dataType: "text",
+                                                data: {
+                                                    accion: "editarTrabajador",
+                                                    id: id,
+                                                    nom: nom,
+                                                    apell: apell,
+                                                    areTra: areTr,
+                                                },
+                                                success: function (datos) {
+                                                    console.log(datos);
+                                                    cargaDatos();
+                                                    $("#modalEditarTrabajador").modal("hide");
+                                                    $("#idTrabaHidden").val("");
+                                                    swal("Correcto!", "Trabajador modificada !", "success");
+                                                }
+                                            });
+                                        }
+                                    });
                                 }
-
-
 
                                 function dibujaTabla(datos) {
                                     $('#myTable').DataTable().destroy();

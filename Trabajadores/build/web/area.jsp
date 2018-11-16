@@ -118,7 +118,7 @@
                                     // abrir ventana modal con los datos del producto
                                     // llamamos a la función que guarda modificación
                                     $("#modalEditarArea").modal("show");
-                                    $("#idArea").html("ID Producto: " + id);
+                                    $("#idArea").html("ID Area: " + id);
                                     $("#idAreaHidden").val(id);
                                     $.ajax({
                                         url: './updateArea.do',
@@ -141,7 +141,7 @@
                                 }
 
                                 function crearArea() {
-                                    //variables para todos los datos del nuevo producto
+                                    //variables para todos los datos del nuevo 
                                     // ajax para crear nuevo producto (insert)
                                     var are = $("#txtArea").val();
                                     if (are.length == 0) {
