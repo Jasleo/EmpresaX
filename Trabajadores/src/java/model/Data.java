@@ -107,6 +107,47 @@ public class Data {
         return newTra;
     }
 
+    public List<TrabajadorArea> getTrabajadorArea() throws SQLException {
+        List<TrabajadorArea> list = new ArrayList<>();
+
+        query = "SELECT * FROM datos_persona;";
+        rs = con.ejecutarSelect(query);
+
+        TrabajadorArea traA;
+
+        while (rs.next()) {
+            traA = new TrabajadorArea();
+            traA.setId(rs.getInt(1));
+            traA.setRut(rs.getString(2));
+            traA.setNombre(rs.getString(3));
+            traA.setApellido(rs.getString(4));
+            traA.setAreaFk(rs.getString(5));
+            list.add(traA);
+        }
+
+        con.close();
+
+        return list;
+    }
+
+    public TrabajadorArea getTrabajadorAreaId(String idTrabaja) throws SQLException {
+        TrabajadorArea traA = new TrabajadorArea();
+
+        query = "SELECT * FROM datos_persona WHERE id = " + idTrabaja + ";";
+        rs = con.ejecutarSelect(query);
+
+        if (rs.next()) {
+            traA.setId(rs.getInt(1));
+            traA.setRut(rs.getString(2));
+            traA.setNombre(rs.getString(3));
+            traA.setApellido(rs.getString(4));
+            traA.setAreaFk(rs.getString(5));
+        }
+        con.close();
+
+        return traA;
+    }
+
     //UPDATE
     public void updateArea(Area a) throws SQLException {
         query = "UPDATE  area SET nombreA = '" + a.getNombre() + "' WHERE id = " + a.getId() + ";";

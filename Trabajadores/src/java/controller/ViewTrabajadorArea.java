@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -12,10 +13,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Data;
-import model.Trabajador;
+import model.TrabajadorArea;
 
-@WebServlet(name = "UpdateTrabajaServlet", urlPatterns = {"/updateTrabaja.do"})
-public class UpdateTrabajaServlet extends HttpServlet {
+@WebServlet(name = "ViewTrabajadorArea", urlPatterns = {"/viewTrabajadorArea.do"})
+public class ViewTrabajadorArea extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -24,43 +25,19 @@ public class UpdateTrabajaServlet extends HttpServlet {
             try {
                 Data d = new Data();
                 Gson g = new Gson();
-                Trabajador updateTrabajador = new Trabajador();
                 
-                String accion = request.getParameter("accion");
-                String idTra = request.getParameter("id");
-                String idAre = request.getParameter("idAre");
+                List<TrabajadorArea> respTrabaArea = d.getTrabajadorArea();
+                out.print(g.toJson(respTrabaArea));
                 
-                System.out.println(accion);
-                switch (accion) {
-                    case "traerTrabajador":
-                        out.print(g.toJson(d.getTrabajadorAreaId(idTra)));
-                        System.out.println(d.getTrabajadorAreaId(idTra));
-                        break;
-                    case "editarTrabajador":
-                        String txtTrabajadorRut = request.getParameter("traRut");
-                        String txtTrabajadorNombre = request.getParameter("traNombre");
-                        String txtTrabajadorApellido = request.getParameter("traApellido");
-                        int txtIdArea = Integer.parseInt(request.getParameter("idArea"));
-                        
-                        updateTrabajador.setRut(txtTrabajadorRut);
-                        updateTrabajador.setNombre(txtTrabajadorNombre);
-                        updateTrabajador.setApellido(txtTrabajadorApellido);
-                        
-                        d.updateTrabajador(txtIdArea, updateTrabajador);
-                        break;
-
-                }
-
-                
-                
-                
+                System.out.println("LA SUPUESTA RESPUESTA");
+                System.out.println(g.toJson(respTrabaArea));
                 
             } catch (SQLException ex) {
-                Logger.getLogger(UpdateTrabajaServlet.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ViewTrabajadorArea.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(UpdateTrabajaServlet.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ViewTrabajadorArea.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
         }
     }
 

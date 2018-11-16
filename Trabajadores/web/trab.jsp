@@ -15,6 +15,7 @@
                 <thead>
                     <tr>
                         <td>ID</td>
+                        <td>Rut</td>
                         <td>Nombre</td>
                         <td>Apellido</td>
                         <td>Area</td>
@@ -35,7 +36,10 @@
                     <div class="modal-body">
                         <label>Nombre: <input type="text" class="form-control" id="txtNombre"></label>
                         <label>Apellido: <input type="text" class="form-control" id="txtApellido"></label>
-                        <label>Area: <input type="text" class="form-control" id="txtArea"></label>
+                        <label>Area: <input type="text" class="form-control" id="txtArea">
+                            <select></select>
+                        
+                        </label>
                         <div class="modal-footer">
                             <button class="btn btn-success" onclick="crearTraba()">Guardar</button>
                             <button class="btn btn-primary" data-dismiss="modal" onclick="limpiarCampos()">Cerrar</button>
@@ -129,8 +133,8 @@
                                         dataType: 'json',
                                         success: function (data) {
                                             $("#txtNombreEd").val(data.nombre);
-                                            $("#txtApellidoEd").val(data.nombre);
-                                            $("#txtAreaTrabEd").val(data.nombre);
+                                            $("#txtApellidoEd").val(data.apellido);
+                                            $("#txtAreaTrabEd").val(data.areaFk);
                                         }
                                     });
 
@@ -225,9 +229,10 @@
                                         data: datos,
                                         columns: [
                                             {data: "id", },
+                                            {data: "rut"},
                                             {data: "nombre"},
                                             {data: "apellido"},
-                                            {data: "area"},
+                                            {data: "areaFk"},
                                             {data: "id",
                                                 render: function (data, type, row, meta) {
                                                     var botones = "<button class='btn btn-sm btn-primary' onclick='editar(" + data + ");'>Editar</button>";
@@ -265,7 +270,7 @@
 
                                 function cargaDatos() {
                                     $.ajax({
-                                        url: './viewTrabajador.do',
+                                        url: './viewTrabajadorArea.do',
                                         type: "POST",
                                         data: {
                                         },
