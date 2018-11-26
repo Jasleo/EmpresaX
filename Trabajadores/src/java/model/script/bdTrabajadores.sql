@@ -17,6 +17,17 @@ CREATE TABLE trabajador(
     PRIMARY KEY (id)
 );
 
+CREATE TABLE producto( 
+    id INT AUTO_INCREMENT,
+    nombre VARCHAR (20),
+    cantidad INT,
+    precio INT,
+    PRIMARY KEY (id)
+);
+
+
+
+
 INSERT INTO area VALUES(NULL,"sector 6G");
 INSERT INTO area VALUES(NULL,"sector 7G");
 INSERT INTO area VALUES(NULL,"sector 5G");

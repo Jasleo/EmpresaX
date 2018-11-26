@@ -46,7 +46,6 @@ public class UpdateTrabajaServlet extends HttpServlet {
                         updateTrabajador.setNombre(txtTrabajadorNombre);
                         updateTrabajador.setApellido(txtTrabajadorApellido);
                         
-                        d.updateTrabajador(txtIdArea, updateTrabajador);
                         break;
 
                 }

@@ -24,6 +24,7 @@
                 </tbody>
             </table>
         </div>
+        
         <div class="modal fade " id="modalNuevaArea" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">

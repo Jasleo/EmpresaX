@@ -1,8 +1,15 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package controller;
 
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -10,37 +17,31 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import model.DataControlUser;
-import model.Usuario;
+import model.Data;
+import model.Producto;
 
-@WebServlet(name = "LoginUserServlet", urlPatterns = {"/loginUser.do"})
-public class LoginUserServlet extends HttpServlet {
+/**
+ *
+ * @author dumbo
+ */
+@WebServlet(name = "ViewProductoServlet", urlPatterns = {"/viewProducto.do"})
+public class ViewProductoServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            DataControlUser d = new DataControlUser();
-            HttpSession session = request.getSession();
-
-            String accion = request.getParameter("accion");
-            String username = request.getParameter("inputUsuario");
-            String pass = request.getParameter("inputPassword");
-
-            Usuario u = d.getUsuario(username, pass);
-            if (u != null) {
-                session.setAttribute("usuario", u);
-                out.print("OK");
-                session.removeAttribute("error");
-            } else {
-                session.setAttribute("error", new Error("Fallo"));
+            try {
+                Data d = new Data();
+                Gson g = new Gson();
+                
+                List <Producto> resProducto = d.getProducto();
+                out.print(g.toJson(resProducto));
+            } catch (SQLException ex) {
+                Logger.getLogger(ViewProductoServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ViewProductoServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(LoginUserServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(LoginUserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

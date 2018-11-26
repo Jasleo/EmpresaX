@@ -16,7 +16,7 @@ public class Data {
                 "localhost",
                 "bdEmpresa",//nombre BD
                 "root",
-                ""//Password
+                "12345"//Password
         );
     }
 
@@ -31,6 +31,11 @@ public class Data {
                 + "VALUE (null,'" + tra.getRut() + "' ,'" + tra.getNombre() + "' "
                 + ",'" + tra.getApellido() + "' ,'" + tra.getAreaFk() + "')";
 
+        con.ejecutar(query);
+    }
+
+    public void crearProducto(Producto pr) throws SQLException {
+        query = "INSERT INTO producto VALUE(null,'" + pr.getNombre() + "','" + pr.getCantidad() + "','" + pr.getPrecio() + "')";
         con.ejecutar(query);
     }
 
@@ -55,6 +60,19 @@ public class Data {
 
     }
 
+    public Area getAreaId(String idArea) throws SQLException {
+        Area obj = new Area();
+        query = "SELECT * FROM area WHERE id = " + idArea + ";";
+        rs = con.ejecutarSelect(query);
+        if (rs.next()) {
+            obj.setId(rs.getInt(1));
+            obj.setNombre(rs.getString(2));
+        }
+        con.close();
+        return obj;
+    }
+
+    /////////////////////////
     public List<Trabajador> getTrabajador() throws SQLException {
         List<Trabajador> list = new ArrayList<>();
 
@@ -77,18 +95,6 @@ public class Data {
         return list;
     }
 
-    public Area getAreaId(String idArea) throws SQLException {
-        Area obj = new Area();
-        query = "SELECT * FROM area WHERE id = " + idArea + ";";
-        rs = con.ejecutarSelect(query);
-        if (rs.next()) {
-            obj.setId(rs.getInt(1));
-            obj.setNombre(rs.getString(2));
-        }
-        con.close();
-        return obj;
-    }
-
     public Trabajador getTrabajadorById(String idTraba) throws SQLException {
         Trabajador newTra = new Trabajador();
         query = "SELECT * FROM trabajador;";
@@ -107,6 +113,7 @@ public class Data {
         return newTra;
     }
 
+    ///////////////////////////
     public List<TrabajadorArea> getTrabajadorArea() throws SQLException {
         List<TrabajadorArea> list = new ArrayList<>();
 
@@ -147,6 +154,42 @@ public class Data {
 
         return traA;
     }
+  ///////////////////////////
+
+    public List<Producto> getProducto() throws SQLException {
+        List<Producto> list = new ArrayList<>();
+
+        query = "SELECT * FROM pruducto;";
+        rs = con.ejecutarSelect(query);
+
+        Producto pr;
+
+        while (rs.next()) {
+            pr = new Producto();
+            pr.setId(rs.getInt(1));
+            pr.setNombre(rs.getString(2));
+            pr.setCantidad(rs.getInt(3));
+            pr.setPrecio(rs.getInt(4));
+            list.add(pr);
+        }
+        con.close();
+
+        return list;
+    }
+
+    public Producto getProductoById(String id) throws SQLException {
+        Producto obj = new Producto();
+        query = "SELECT * FROM producto WHERE id = " + id + ";";
+        rs = con.ejecutarSelect(query);
+        if (rs.next()) {
+            obj.setId(rs.getInt(1));
+            obj.setNombre(rs.getString(2));
+            obj.setCantidad(rs.getInt(3));
+            obj.setPrecio(rs.getInt(4));
+        }
+        con.close();
+        return obj;
+    }
 
     //UPDATE
     public void updateArea(Area a) throws SQLException {
@@ -154,13 +197,13 @@ public class Data {
         con.ejecutar(query);
     }
 
-    public void updateTrabajador(int idArea, Trabajador tra) throws SQLException {
-        query = "UPDATE  trabajador SET nombre = '" + tra.getRut() + "', '" + tra.getNombre() + "' ,'" + tra.getApellido() + "' "
-                + "'" + tra.getAreaFk() + "'"
-                + "WHERE id = " + idArea + "";
+    public void updateProducto(Producto pr) throws SQLException {
+        query = "UPDATE  producto SET nombre = '" + pr.getNombre()+ "', cantidad = " + pr.getCantidad()+ ""
+                + ", precio = " + pr.getPrecio() + " "
+                + "WHERE id = " + pr.getId() + "";
         con.ejecutar(query);
     }
-
+    
     //ELIMINAR
     public void deleteArea(int idArea) throws SQLException {
         query = "DELETE FROM area WHERE id = " + idArea + "";
@@ -169,6 +212,11 @@ public class Data {
 
     public void deleteTrabajador(int idTrabajador) throws SQLException {
         query = "DELETE FROM trabajador WHERE id = " + idTrabajador + "";
+        con.ejecutar(query);
+    }
+    
+    public void deleteProducto(int idProducto) throws SQLException {
+        query = "DELETE FROM producto WHERE id = " + idProducto + "";
         con.ejecutar(query);
     }
 }

@@ -1,5 +1,6 @@
 package controller;
 
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -10,37 +11,50 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import model.DataControlUser;
-import model.Usuario;
+import model.Data;
+import model.Producto;
 
-@WebServlet(name = "LoginUserServlet", urlPatterns = {"/loginUser.do"})
-public class LoginUserServlet extends HttpServlet {
+@WebServlet(name = "UpdateProductoServlet", urlPatterns = {"/updateProducto.do"})
+public class UpdateProductoServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            DataControlUser d = new DataControlUser();
-            HttpSession session = request.getSession();
+            try {
+                Data d = new Data();
+                Gson g = new Gson();
 
-            String accion = request.getParameter("accion");
-            String username = request.getParameter("inputUsuario");
-            String pass = request.getParameter("inputPassword");
+                String accion = request.getParameter("accion");
+                String id = request.getParameter("id");
 
-            Usuario u = d.getUsuario(username, pass);
-            if (u != null) {
-                session.setAttribute("usuario", u);
-                out.print("OK");
-                session.removeAttribute("error");
-            } else {
-                session.setAttribute("error", new Error("Fallo"));
+                Producto updateP = new Producto();
+
+                switch (accion) {
+                    case "traerProducto":
+                        out.print(g.toJson(d.getProductoById(id)));
+                        break;
+                    case "editarProducto":
+                        String txtNombreProductoE = request.getParameter("proNom");
+                        String txtCantidadProductoE = request.getParameter("proCantidad");
+                        String txtPrecioProductoE = request.getParameter("proPrecio");
+                        
+                        updateP.setNombre(txtNombreProductoE);
+                        updateP.setCantidad(Integer.parseInt(txtCantidadProductoE));
+                        updateP.setPrecio(Integer.parseInt(txtPrecioProductoE));
+                        
+                        updateP.setId(Integer.parseInt(id));
+                        d.updateProducto(updateP);
+
+                        break;
+
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(UpdateProductoServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(UpdateProductoServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-        } catch (SQLException ex) {
-            Logger.getLogger(LoginUserServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(LoginUserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

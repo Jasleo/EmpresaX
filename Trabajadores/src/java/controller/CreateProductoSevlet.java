@@ -10,37 +10,32 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import model.DataControlUser;
-import model.Usuario;
+import model.Data;
+import model.Producto;
 
-@WebServlet(name = "LoginUserServlet", urlPatterns = {"/loginUser.do"})
-public class LoginUserServlet extends HttpServlet {
+@WebServlet(name = "CreateProductoSevlet", urlPatterns = {"/createProducto.do"})
+public class CreateProductoSevlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            DataControlUser d = new DataControlUser();
-            HttpSession session = request.getSession();
-
-            String accion = request.getParameter("accion");
-            String username = request.getParameter("inputUsuario");
-            String pass = request.getParameter("inputPassword");
-
-            Usuario u = d.getUsuario(username, pass);
-            if (u != null) {
-                session.setAttribute("usuario", u);
-                out.print("OK");
-                session.removeAttribute("error");
-            } else {
-                session.setAttribute("error", new Error("Fallo"));
+            try {
+                Data d = new Data();
+                Producto createProducto = new Producto();
+                
+                createProducto.setNombre(request.getParameter("nombre"));
+                createProducto.setCantidad(Integer.parseInt(request.getParameter("cantidad")));
+                createProducto.setPrecio(Integer.parseInt(request.getParameter("precio")));
+                
+                d.crearProducto(createProducto);
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(CreateProductoSevlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(CreateProductoSevlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-        } catch (SQLException ex) {
-            Logger.getLogger(LoginUserServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(LoginUserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

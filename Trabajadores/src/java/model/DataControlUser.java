@@ -14,7 +14,7 @@ public class DataControlUser {
                 "localhost",
                 "bdEmpresa",//nombre BD
                 "root",
-                ""//Password
+                "12345"//Password
         );
     }
 

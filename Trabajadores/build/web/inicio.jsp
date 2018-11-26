@@ -40,15 +40,23 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Link</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
             </ul>
 
             <ul class="navbar-left">
                 <button class="btn btn-primary" onclick="logout();">logout</button>
             </ul>
-
-
-
         </nav>
+
+
+        
+
+
+
+
+
 
         <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
@@ -61,7 +69,13 @@
 
                     $(document).ready(function () {
                         cargaDatosArea();
+                        $("#mArea").modal("hide");
                     });
+
+                    areaShow(){
+                        $("#mArea").modal("show");
+                    }
+
 
 
                     function logout() {
@@ -78,6 +92,8 @@
                             }
                         });
                     }
+
+
 
 
         </script>
