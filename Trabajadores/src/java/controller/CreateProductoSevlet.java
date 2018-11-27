@@ -24,9 +24,9 @@ public class CreateProductoSevlet extends HttpServlet {
                 Data d = new Data();
                 Producto createProducto = new Producto();
                 
-                createProducto.setNombre(request.getParameter("nombre"));
-                createProducto.setCantidad(Integer.parseInt(request.getParameter("cantidad")));
-                createProducto.setPrecio(Integer.parseInt(request.getParameter("precio")));
+                createProducto.setNombre(request.getParameter("nom"));
+                createProducto.setCantidad(Integer.parseInt(request.getParameter("can")));
+                createProducto.setPrecio(Integer.parseInt(request.getParameter("pre")));
                 
                 d.crearProducto(createProducto);
                 

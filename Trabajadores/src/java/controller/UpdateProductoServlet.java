@@ -35,9 +35,9 @@ public class UpdateProductoServlet extends HttpServlet {
                         out.print(g.toJson(d.getProductoById(id)));
                         break;
                     case "editarProducto":
-                        String txtNombreProductoE = request.getParameter("proNom");
-                        String txtCantidadProductoE = request.getParameter("proCantidad");
-                        String txtPrecioProductoE = request.getParameter("proPrecio");
+                        String txtNombreProductoE = request.getParameter("nomEd");
+                        String txtCantidadProductoE = request.getParameter("canEd");
+                        String txtPrecioProductoE = request.getParameter("preEd");
                         
                         updateP.setNombre(txtNombreProductoE);
                         updateP.setCantidad(Integer.parseInt(txtCantidadProductoE));
